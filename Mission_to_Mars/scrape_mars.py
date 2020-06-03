@@ -16,22 +16,22 @@ def init_browser():
     #                       "Mars Images" : hemisphere_image_urls}
 def news_title():
     browser = init_browser()
-# URL of page to be scraped
-    url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
-    browser.visit(url)
+    executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
+    browser = Browser('chrome', **executable_path, headless=False)
+    url = 'https://mars.nasa.gov/news/'
 
-    html = browser.html
-    soup = bs(html, "html.parser")
-# # Retrieve page with the requests module
-# response = requests.get(url)
-# # Create BeautifulSoup object; parse with 'lxml'
-# soup = BeautifulSoup(response.text, 'lxml')
-# ### NASA Mars News
+# Retrieve page with the requests module
+    browser.visit(url)
+    time.sleep(2)
+# Create BeautifulSoup object; parse with 'lxml'
+    soup = bs(browser.html, 'lxml')
+
     news_title = soup.find('div', class_='content_title')
+
     clean_news_title = news_title.text.strip()
 
 # issue here
-    news_p = soup.find('div', class_='rollover_description_inner')
+    news_p = soup.find('div', class_='article_teaser_body')
     clean_news_p = news_p.text.strip()
 
     browser.quit()
@@ -184,7 +184,7 @@ def scrape_info():
     important_mars_data["mars_title"] = mars_title
     important_mars_data["mars_paragraph"] = mars_paragraph
     important_mars_data["featured_image_url"] = mars_image()
-    important_mars_data["mars_weather_facts"] = mars_weather()
+    important_mars_data["mars_weather"] = mars_weather()
     important_mars_data["mars_facts"] = mars_facts()
     important_mars_data["mars_hems"] = mars_hems()
     return important_mars_data

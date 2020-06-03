@@ -22,12 +22,19 @@
         <p>mars_paragraph</p>{{mars_info.mars_paragraph}}
       <h2>featured mars image</h2>
         <img src="{{mars_info.featured_image_url}}"/>
+      
       <h2>mars weather facts</h2> {{mars_info.mars_weather}}
         <hr>
+      
       <h3>mars facts</h3> 
         {{mars_info.mars_facts| safe}} 
+      
       <h4>mars hemispheres</h4>
-        <img src="{{mars_info.mars_hems}}"/>
+        {% for i in mars_info.mars_hems %}
+        <img src="{{i.img_url}}"/>
+        <p>{{i.title}}</p>
+        {% endfor %}
+
     </div>
   </body>
   
